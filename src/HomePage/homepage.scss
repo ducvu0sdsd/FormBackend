@@ -1,0 +1,19 @@
+
+
+#homepage {
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & .link {
+        text-decoration: none;
+        color: white;
+    }
+
+    & button {
+        margin: 0 10px;
+        font-size: 25px;
+        padding: 10px 30px;
+    }
+}

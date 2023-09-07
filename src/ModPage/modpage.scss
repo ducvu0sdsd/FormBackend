@@ -1,0 +1,78 @@
+
+#links-manager-page {
+    margin: 50px 0;
+    display: flex;
+    justify-content: space-evenly;
+
+    & .form-input {
+        height: 700px;
+        padding: 20px 30px;
+
+        & label {
+            display: flex;
+            justify-content: start;
+        }
+
+        & .btns {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+
+            & button {
+                margin: 0 5px;
+            }
+        }
+
+        & .texts input {
+            margin: 5px 0;
+        }
+    }
+
+    & .list-game {
+        height: 900px;
+        overflow-y: scroll;
+        padding: 0 10px;
+        border-radius: 10px;
+        border: 1px solid #cecece;
+
+        & .game-item {
+            height: 50px;
+            width: 100%;
+            background-color: #efefef;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            position: relative;
+            cursor: pointer;
+
+            & .logo {
+                height: 80%;
+                display: flex;
+                justify-content: center;
+            }
+
+            & .other {
+                display: flex;
+                justify-content: space-between;
+                position: relative;
+
+                & .title {
+                    display: flex;
+                    margin-top: 14px;
+                    align-items: center;
+                }
+
+                & .btn-xoa {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: -10px;
+
+                }
+            }
+            
+        }
+    }
+}
