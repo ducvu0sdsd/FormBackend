@@ -1,6 +1,6 @@
 import axios from 'axios';
 import './modpage.scss'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 function ModPage() {
 
@@ -16,9 +16,11 @@ function ModPage() {
         const links = [...input].map(item => item.value)
         const linkDownload = links.filter(item => item.trim() !== '');
 
-        const input1 = document.getElementsByClassName('images-txt')
-        const images = [...input1].map(item => item.value)
-        const listImages = images.filter(item => item.trim() !== '');
+        const formData = new FormData();
+        const imageFiles = imageUser.current.files; 
+        for (let i = 0; i < imageFiles.length; i++) {
+            formData.append(`images`, imageFiles[i]);
+        }
 
         const title = document.querySelector('.txt-title').value
         const video = document.querySelector('.txt-video').value
@@ -26,7 +28,27 @@ function ModPage() {
         const origin = document.querySelector('.txt-origin-game').value
         const criteria = document.querySelector('.txt-criteria').value
 
-        axios.post('https://ic-gaming-node-js.vercel.app/mods/insert', {title : title, video : video, linkDownload : linkDownload, images : listImages, description : description, criteria : criteria, originGame : origin})
+        let str = ''
+        linkDownload.forEach((item,index) => {
+            if (index == 0) {
+                str += item
+            } else {
+                str += '!' + item 
+            }
+        })
+
+        formData.append('title', title);
+        formData.append('video', video);
+        formData.append('linkDownload', str);
+        formData.append('description', description);
+        formData.append('originGame', origin);
+        formData.append('criteria', criteria);
+
+        axios.post('http://localhost:3002/mods/insert', formData , {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
             .then(res => {
                 if(res.data.status == 200) {
                     window.location.reload()
@@ -60,12 +82,12 @@ function ModPage() {
                 res.data.linkDownload.forEach((link, index) => {
                     input[index].value = link
                 })
-                for (let i = 0 ; i < input1.length ; i++) {
-                    input1[i].value = ''
-                }
-                res.data.images.forEach((link, index) => {
-                    input1[index].value = link
-                })
+                // for (let i = 0 ; i < input1.length ; i++) {
+                //     input1[i].value = ''
+                // }
+                // res.data.images.forEach((link, index) => {
+                //     input1[index].value = link
+                // })
                 setId(_id)
             })
     }
@@ -81,12 +103,9 @@ function ModPage() {
         const links = [...input].map(item => item.value)
         const linkDownload = links.filter(item => item.trim() !== '');
 
-        const input1 = document.getElementsByClassName('images-txt')
-        const images = [...input1].map(item => item.value)
-        const listImages = images.filter(item => item.trim() !== '');
 
         if (id != '') {
-            axios.post('https://ic-gaming-node-js.vercel.app/mods/update', {id : id,title : title, video : video, linkDownload : linkDownload, images : listImages, description : description, criteria : criteria, originGame : origin})
+            axios.post('https://ic-gaming-node-js.vercel.app/mods/update', {id : id,title : title, video : video, linkDownload : linkDownload, description : description, criteria : criteria, originGame : origin})
                 .then(res => {
                     if(res.data.status == 200) {
                         window.location.reload()
@@ -94,66 +113,61 @@ function ModPage() {
                 })
         }
     }
+    const imageUser = useRef()
 
     return (
         <div id='links-manager-page' className='col-lg-12'>
             <div className='col-lg-6 form-input'>
-                <div class="mt-2"></div>
-                <div class="form-group">
-                    <label className='col-lg-12' for="customInput">Title</label>
-                    <div class="mt-1"></div>
-                    <input type="text" name="titleVideo" class="form-control txt-title" placeholder="Enter text"/>
+                <div className="mt-2"></div>
+                <div className="form-group">
+                    <label className='col-lg-12' htmlFor="customInput">Title</label>
+                    <div className="mt-1"></div>
+                    <input type="text" name="titleVideo" className="form-control txt-title" placeholder="Enter text"/>
                 </div>
                 
-                <div class="mt-2"></div>
-                <div class="form-group">
-                    <label className='col-lg-12' for="customInput">Video ID</label>
-                    <div class="mt-1"></div>
-                    <input type="text" name="titleVideo" class="form-control txt-video" placeholder="Enter text"/>
+                <div className="mt-2"></div>
+                <div className="form-group">
+                    <label className='col-lg-12' htmlFor="customInput">Video ID</label>
+                    <div className="mt-1"></div>
+                    <input type="text" name="titleVideo" className="form-control txt-video" placeholder="Enter text"/>
                 </div>
 
-                <div class="mt-2"></div>
-                <div class="form-group">
-                    <label className='col-lg-12' for="customInput">Description</label>
-                    <div class="mt-1"></div>
-                    <input type="text" name="titleVideo" class="form-control txt-description" placeholder="Enter text"/>
+                <div className="mt-2"></div>
+                <div className="form-group">
+                    <label className='col-lg-12' htmlFor="customInput">Description</label>
+                    <div className="mt-1"></div>
+                    <input type="text" name="titleVideo" className="form-control txt-description" placeholder="Enter text"/>
                 </div>
-                <div class="mt-2"></div>
-                <div class="form-group">
-                    <label className='col-lg-12' for="customInput">Origin Game</label>
-                    <div class="mt-1"></div>
-                    <input type="text" name="titleVideo" class="form-control txt-origin-game" placeholder="Enter text"/>
+                <div className="mt-2"></div>
+                <div className="form-group">
+                    <label className='col-lg-12' htmlFor="customInput">Origin Game</label>
+                    <div className="mt-1"></div>
+                    <input type="text" name="titleVideo" className="form-control txt-origin-game" placeholder="Enter text"/>
                 </div>
-                <div class="mt-2"></div>
-                <div class="form-group">
-                    <label className='col-lg-12' for="customInput">Criteria</label>
-                    <div class="mt-1"></div>
-                    <input type="text" name="titleVideo" class="form-control txt-criteria" placeholder="Enter text"/>
+                <div className="mt-2"></div>
+                <div className="form-group">
+                    <label className='col-lg-12' htmlFor="customInput">Criteria</label>
+                    <div className="mt-1"></div>
+                    <input type="text" name="titleVideo" className="form-control txt-criteria" placeholder="Enter text"/>
                 </div>
-                <div class="mt-2"></div>
-                <div class="form-group">
-                    <label className='col-lg-12' for="customInput">Images</label>
-                    <div class="mt-1 texts">
-                        <input type="text" name="images" class="form-control images-txt" placeholder="Enter text"/>
-                        <input type="text" name="images" class="form-control images-txt" placeholder="Enter text"/>
-                        <input type="text" name="images" class="form-control images-txt" placeholder="Enter text"/>
-                        <input type="text" name="images" class="form-control images-txt" placeholder="Enter text"/>
-                        <input type="text" name="images" class="form-control images-txt" placeholder="Enter text"/>
-                        <input type="text" name="images" class="form-control images-txt" placeholder="Enter text"/>
-                        <input type="text" name="images" class="form-control images-txt" placeholder="Enter text"/>
+                <div className="mt-2"></div>
+                <div className="form-group">
+                    <label className='col-lg-12' htmlFor="customInput">Images</label>
+                    <div className="mt-1 texts">
+                        <input ref={imageUser} type="file" name="images" multiple className="image-user" accept=".jpg, .jpeg, .png"/>
                     </div>
                 </div>
-                <div class="mt-2"></div>
-                <div class="form-group">
-                    <label className='col-lg-12' for="customInput">Link Download</label>
-                    <div class="mt-1 texts">
-                        <input type="text" name="images" class="form-control links-txt" placeholder="Enter text"/>
-                        <input type="text" name="images" class="form-control links-txt" placeholder="Enter text"/>
+                <div className="mt-2"></div>
+                <div className="form-group">
+                    <label className='col-lg-12' htmlFor="customInput">Link Download</label>
+                    <div className="mt-1 texts">
+                        <input type="text" name="images" className="form-control links-txt" placeholder="Enter text"/>
                     </div>
                 </div>
                 <div className='btns'>
-                    <button onClick={() => {handleInsertMods()}} class="btn btn-success">Thêm</button>
-                    <button onClick={() => {handleUpdateMods()}} class="btn btn-primary">Sửa</button>
+                {/* onClick={() => {handleInsertMods()}} */}
+                    <button onClick={() => {handleInsertMods()}} className="btn btn-success">Thêm</button>
+                    <button onClick={() => {handleUpdateMods()}} className="btn btn-primary">Sửa</button>
                 </div> 
             </div>
             <div className='col-lg-5 list-game'>
