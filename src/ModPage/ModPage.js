@@ -44,7 +44,7 @@ function ModPage() {
         formData.append('originGame', origin);
         formData.append('criteria', criteria);
 
-        axios.post('http://localhost:3002/mods/insert', formData , {
+        axios.post('https://ic-gaming-node-js.vercel.app/mods/insert', formData , {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -82,12 +82,6 @@ function ModPage() {
                 res.data.linkDownload.forEach((link, index) => {
                     input[index].value = link
                 })
-                // for (let i = 0 ; i < input1.length ; i++) {
-                //     input1[i].value = ''
-                // }
-                // res.data.images.forEach((link, index) => {
-                //     input1[index].value = link
-                // })
                 setId(_id)
             })
     }
