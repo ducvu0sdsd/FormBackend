@@ -156,6 +156,9 @@ function ModPage() {
                     <label className='col-lg-12' htmlFor="customInput">Link Download</label>
                     <div className="mt-1 texts">
                         <input type="text" name="images" className="form-control links-txt" placeholder="Enter text"/>
+                        <input type="text" name="images" className="form-control links-txt" placeholder="Enter text"/>
+                        <input type="text" name="images" className="form-control links-txt" placeholder="Enter text"/>
+                        <input type="text" name="images" className="form-control links-txt" placeholder="Enter text"/>
                     </div>
                 </div>
                 <div className='btns'>
