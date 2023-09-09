@@ -162,7 +162,6 @@ function ModPage() {
                     </div>
                 </div>
                 <div className='btns'>
-                {/* onClick={() => {handleInsertMods()}} */}
                     <button onClick={() => {handleInsertMods()}} className="btn btn-success">Thêm</button>
                     <button onClick={() => {handleUpdateMods()}} className="btn btn-primary">Sửa</button>
                 </div> 
